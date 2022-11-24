@@ -1,14 +1,14 @@
 resource "docker_container" "mariadb_container" {
-  name  = "db_yabs"
-  image = docker_image.mariadb_image.image_id
+  name         = "db_yabs"
+  image        = docker_image.mariadb_image.image_id
   command      = ["--default-authentication-plugin=mysql_native_password"]
   restart      = "always"
   network_mode = "wp_net_yabs"
   env = [
-    "MYSQL_ROOT_PASSWORD=somewordpress",
-    "MYSQL_DATABASE=wordpress",
-    "MYSQL_USER=wordpress",
-    "MYSQL_PASSWORD=wordpress"
+    var.MYSQL_ROOT_PASSWORD,
+    var.MYSQL_DATABASE,
+    var.MYSQL_USER,
+    var.MYSQL_PASSWORD
   ]
   mounts {
     type   = "volume"
@@ -28,10 +28,10 @@ resource "docker_container" "wp_container" {
   restart      = "always"
   network_mode = "wp_net_yabs"
   env = [
-    "WORDPRESS_DB_HOST=db_yabs",
-    "WORDPRESS_DB_USER=wordpress",
-    "WORDPRESS_DB_PASSWORD=wordpress",
-    "WORDPRESS_DB_NAME=wordpress"
+    var.WORDPRESS_DB_HOST,
+    var.WORDPRESS_DB_USER,
+    var.WORDPRESS_DB_PASSWORD,
+    var.WORDPRESS_DB_NAME
   ]
   mounts {
     type   = "volume"
