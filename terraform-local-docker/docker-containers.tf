@@ -19,7 +19,7 @@ resource "docker_container" "mariadb_container" {
 }
 
 resource "docker_container" "wp_container" {
-  name  = "wp_yabs"
+  name  = join("-",["wp_yabs", random_string.random.result])
   image = docker_image.wordpress_image.image_id
   ports {
     internal = 80
